@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
-import { Widget } from "@/components/Widgets/Widgets";
-import { AddWidgetModal } from "@/components/Widgets/AddWidgetModal";
+import { Widget } from "@/components/widgets/Widgets";
+import { AddWidgetModal } from "@/components/widgets/AddWidgetModal";
 import Charts from "@/components/Charts";
 import { mockData } from "@/data/mock-data";
 
