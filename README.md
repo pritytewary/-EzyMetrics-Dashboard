@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# EzyMetrics Dashboard
 
-## Getting Started
+This is a dashboard interface designed for EzyMetrics using React.js. The project includes a sidebar with navigation, customizable widgets, a lead management section with dummy data, and a basic reporting tool for generating PDF/CSV reports.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
+- **Responsive Design**: Optimized for both desktop and mobile views.
+- **Customizable Widgets**: Add or remove widgets to display different types of information.
+- **Lead Management**: View and manage leads with details displayed in a modal.
+- **Analytics & Reporting**: Visualize performance metrics using charts and generate reports in PDF/CSV format.
+
+## Tech Stack
+
+- **React.js**: The main framework used for building the frontend.
+- **Chart.js**: Used for visualizing performance metrics in charts.
+- **React-Modal**: For displaying lead details in a modal.
+- **React-PDF/CSV**: For generating reports in PDF and CSV formats.
+
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ezymetrics-dashboard.git
+   Navigate to the project directory:
+   ```
+
+cd ezymetrics-dashboard
+Install the dependencies:
+
+npm install
+
 # or
-yarn dev
+
+yarn install
+Running the Project
+Start the development server:
+
+npm start
+
 # or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+yarn start
+Open your browser and navigate to http://localhost:3000 to view the dashboard.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Dummy Data
+The dashboard uses dummy data for leads and performance metrics, which can be found in the /src/data directory.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+How to Use:
+Sidebar Navigation: Use the sidebar to navigate between the Dashboard, Leads, Analytics, and Reports sections.
+Customizable Widgets: Add or remove widgets to customize your view.
+Lead Management: Click on any lead in the Leads section to view details in a modal window.
+Report Generation: Go to the Reports section to simulate generating PDF/CSV reports.
+Known Issues
+The report generation feature is a simulation and may need additional functionality for actual PDF/CSV downloads.
+Performance metrics are based on static dummy data, not real-time data.
+License
+This project is licensed under the MIT License. See the LICENSE file for details.

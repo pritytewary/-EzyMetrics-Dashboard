@@ -1,0 +1,52 @@
+export const mockData = {
+  performanceData: [
+    { month: "Jan", leads: 65, conversions: 40 },
+    { month: "Feb", leads: 75, conversions: 45 },
+    { month: "Mar", leads: 85, conversions: 55 },
+    { month: "Apr", leads: 95, conversions: 60 },
+    { month: "May", leads: 80, conversions: 50 },
+  ],
+  leadsData: [
+    {
+      id: 1,
+      name: "John Smith",
+      email: "john@example.com",
+      status: "New",
+      source: "Website",
+      date: "2024-10-20",
+      phone: "+1 (555) 123-4567",
+      notes: "Interested in premium package",
+    },
+    {
+      id: 2,
+      name: "Sarah Johnson",
+      email: "sarah@example.com",
+      status: "Contact Made",
+      source: "LinkedIn",
+      date: "2024-10-19",
+      phone: "+1 (555) 234-5678",
+      notes: "Following up next week",
+    },
+    {
+      id: 3,
+      name: "Mike Wilson",
+      email: "mike@example.com",
+      status: "Qualified",
+      source: "Referral",
+      date: "2024-10-18",
+      phone: "+1 (555) 345-6789",
+      notes: "Ready for proposal",
+    },
+  ],
+  analyticsData: {
+    totalLeads: 324,
+    conversionRate: 28,
+    avgResponseTime: 3.2,
+    performanceData: [
+      { date: "Week 1", leads: 45, conversions: 12 },
+      { date: "Week 2", leads: 52, conversions: 15 },
+      { date: "Week 3", leads: 48, conversions: 14 },
+      { date: "Week 4", leads: 60, conversions: 18 },
+    ],
+  },
+};

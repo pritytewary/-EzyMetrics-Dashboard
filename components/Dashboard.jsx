@@ -1,15 +1,7 @@
+"use client";
+
 import React, { useState } from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-} from "recharts";
+import dynamic from "next/dynamic";
 import {
   LayoutDashboard,
   Users,
@@ -22,7 +14,13 @@ import {
   Search,
 } from "lucide-react";
 
-// Dummy data for charts and leads
+const Charts = dynamic(() => import("./Charts"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[300px] bg-gray-100 animate-pulse rounded-lg" />
+  ),
+});
+
 const performanceData = [
   { month: "Jan", leads: 65, conversions: 40 },
   { month: "Feb", leads: 75, conversions: 45 },
@@ -58,68 +56,57 @@ const leadsData = [
   },
 ];
 
-const Dashboard = () => {
+const NavItem = ({ icon: Icon, text, isActive, onClick }) => (
+  <button
+    className={`flex items-center space-x-2 p-4 w-full text-left hover:bg-blue-50 ${
+      isActive ? "bg-blue-100" : ""
+    }`}
+    onClick={onClick}
+  >
+    <Icon size={20} />
+    <span>{text}</span>
+  </button>
+);
+
+const Widget = ({ title, children }) => (
+  <div className="bg-white p-4 rounded-lg shadow">
+    <h3 className="text-lg font-semibold mb-4">{title}</h3>
+    {children}
+  </div>
+);
+
+export const LeadModal = ({ lead, onClose }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg p-6 w-full max-w-md">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-semibold">Lead Details</h3>
+        <button
+          onClick={onClose}
+          className="text-gray-500 hover:text-gray-700"
+          type="button"
+        >
+          <X size={20} />
+        </button>
+      </div>
+      <div className="space-y-4">
+        {Object.entries(lead)
+          .filter(([key]) => key !== "id")
+          .map(([key, value]) => (
+            <div key={key}>
+              <label className="font-medium capitalize">{key}</label>
+              <p>{String(value)}</p>
+            </div>
+          ))}
+      </div>
+    </div>
+  </div>
+);
+
+export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
-
-  const NavItem = ({ icon: Icon, text }) => (
-    <div
-      className={`flex items-center space-x-2 p-4 cursor-pointer hover:bg-blue-50 ${
-        activeTab === text ? "bg-blue-100" : ""
-      }`}
-      onClick={() => setActiveTab(text)}
-    >
-      <Icon size={20} />
-      <span>{text}</span>
-    </div>
-  );
-
-  const Widget = ({ title, children }) => (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
-      {children}
-    </div>
-  );
-
-  const LeadModal = ({ lead, onClose }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold">Lead Details</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <X size={20} />
-          </button>
-        </div>
-        <div className="space-y-4">
-          <div>
-            <label className="font-medium">Name</label>
-            <p>{lead.name}</p>
-          </div>
-          <div>
-            <label className="font-medium">Email</label>
-            <p>{lead.email}</p>
-          </div>
-          <div>
-            <label className="font-medium">Status</label>
-            <p>{lead.status}</p>
-          </div>
-          <div>
-            <label className="font-medium">Source</label>
-            <p>{lead.source}</p>
-          </div>
-          <div>
-            <label className="font-medium">Date Added</label>
-            <p>{lead.date}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -133,64 +120,49 @@ const Dashboard = () => {
           <h1 className="text-xl font-bold">EzyMetrics</h1>
         </div>
         <nav className="mt-4">
-          <NavItem icon={LayoutDashboard} text="Dashboard" />
-          <NavItem icon={Users} text="Leads" />
-          <NavItem icon={BarChart2} text="Analytics" />
-          <NavItem icon={FileText} text="Reports" />
-          <NavItem icon={Settings} text="Settings" />
+          {[
+            { icon: LayoutDashboard, text: "Dashboard" },
+            { icon: Users, text: "Leads" },
+            { icon: BarChart2, text: "Analytics" },
+            { icon: FileText, text: "Reports" },
+            { icon: Settings, text: "Settings" },
+          ].map(({ icon, text }) => (
+            <NavItem
+              key={text}
+              icon={icon}
+              text={text}
+              isActive={activeTab === text}
+              onClick={() => setActiveTab(text)}
+            />
+          ))}
         </nav>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
-        {/* Header */}
         <header className="bg-white shadow-sm p-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold">{activeTab}</h2>
-            <div className="flex space-x-4">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
-                <Plus size={20} />
-                <span>Add Widget</span>
-              </button>
-            </div>
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
+              type="button"
+            >
+              <Plus size={20} />
+              <span>Add Widget</span>
+            </button>
           </div>
         </header>
 
-        {/* Dashboard Content */}
         <main className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Performance Widget */}
             <Widget title="Performance Overview">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={performanceData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="leads" fill="#3b82f6" name="Leads" />
-                  <Bar
-                    dataKey="conversions"
-                    fill="#10b981"
-                    name="Conversions"
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+              <Charts type="bar" data={performanceData} />
             </Widget>
 
-            {/* Trend Widget */}
             <Widget title="Lead Trend">
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={performanceData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="leads" stroke="#3b82f6" />
-                </LineChart>
-              </ResponsiveContainer>
+              <Charts type="line" data={performanceData} />
             </Widget>
 
-            {/* Leads Table Widget */}
             <Widget title="Recent Leads">
               <div className="overflow-x-auto">
                 <div className="flex justify-between mb-4">
@@ -205,7 +177,10 @@ const Dashboard = () => {
                       size={20}
                     />
                   </div>
-                  <button className="flex items-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-lg">
+                  <button
+                    className="flex items-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-lg"
+                    type="button"
+                  >
                     <Download size={20} />
                     <span>Export</span>
                   </button>
@@ -242,7 +217,6 @@ const Dashboard = () => {
           </div>
         </main>
 
-        {/* Lead Modal */}
         {showLeadModal && selectedLead && (
           <LeadModal
             lead={selectedLead}
@@ -255,6 +229,4 @@ const Dashboard = () => {
       </div>
     </div>
   );
-};
-
-export default Dashboard;
+}
