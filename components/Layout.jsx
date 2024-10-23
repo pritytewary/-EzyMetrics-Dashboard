@@ -15,7 +15,6 @@ export default function Layout({
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Mobile overlay */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
@@ -23,7 +22,6 @@ export default function Layout({
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={`
         fixed inset-y-0 left-0 z-30 transform transition-transform duration-300 ease-in-out
@@ -34,7 +32,6 @@ export default function Layout({
         <Sidebar onClose={() => setIsSidebarOpen(false)} />
       </div>
 
-      {/* Main Content */}
       <div className="flex-1 min-h-screen flex flex-col">
         <Header
           title={title}

@@ -109,21 +109,18 @@ export default function Dashboard() {
   return (
     <Layout title="Dashboard" showAddWidget>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Performance Widget */}
         <Widget title="Performance Overview">
           <div className="h-[300px] md:h-[400px]">
             <Charts type="bar" data={performanceData} />
           </div>
         </Widget>
 
-        {/* Lead Trend Widget */}
         <Widget title="Lead Trend">
           <div className="h-[300px] md:h-[400px]">
             <Charts type="line" data={performanceData} />
           </div>
         </Widget>
 
-        {/* Recent Leads Widget */}
         <Widget title="Recent Leads" className="lg:col-span-2">
           <div className="overflow-x-auto">
             <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">

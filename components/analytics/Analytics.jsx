@@ -4,7 +4,6 @@ import Charts from "../Charts";
 export const AnalyticsView = ({ data }) => {
   return (
     <div className="space-y-6">
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="bg-white p-4 rounded-lg shadow">
           <h4 className="text-sm text-gray-500">Total Leads</h4>
@@ -37,7 +36,6 @@ export const AnalyticsView = ({ data }) => {
         </div>
       </div>
 
-      {/* Charts */}
       <div className="bg-white p-4 sm:p-6 rounded-lg shadow">
         <h3 className="text-lg font-semibold mb-4">Performance Trends</h3>
         <div className="h-[300px] sm:h-[400px]">
