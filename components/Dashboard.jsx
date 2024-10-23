@@ -103,130 +103,96 @@ export const LeadModal = ({ lead, onClose }) => (
 );
 
 export default function Dashboard() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState("Dashboard");
   const [showLeadModal, setShowLeadModal] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div
-        className={`bg-white shadow-lg ${
-          isSidebarOpen ? "w-64" : "w-20"
-        } transition-all duration-300`}
-      >
-        <div className="p-4 border-b">
-          <h1 className="text-xl font-bold">EzyMetrics</h1>
-        </div>
-        <nav className="mt-4">
-          {[
-            { icon: LayoutDashboard, text: "Dashboard" },
-            { icon: Users, text: "Leads" },
-            { icon: BarChart2, text: "Analytics" },
-            { icon: FileText, text: "Reports" },
-            { icon: Settings, text: "Settings" },
-          ].map(({ icon, text }) => (
-            <NavItem
-              key={text}
-              icon={icon}
-              text={text}
-              isActive={activeTab === text}
-              onClick={() => setActiveTab(text)}
-            />
-          ))}
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        <header className="bg-white shadow-sm p-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-semibold">{activeTab}</h2>
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
-              type="button"
-            >
-              <Plus size={20} />
-              <span>Add Widget</span>
-            </button>
+    <Layout title="Dashboard" showAddWidget>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Performance Widget */}
+        <Widget title="Performance Overview">
+          <div className="h-[300px] md:h-[400px]">
+            <Charts type="bar" data={performanceData} />
           </div>
-        </header>
+        </Widget>
 
-        <main className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Widget title="Performance Overview">
-              <Charts type="bar" data={performanceData} />
-            </Widget>
+        {/* Lead Trend Widget */}
+        <Widget title="Lead Trend">
+          <div className="h-[300px] md:h-[400px]">
+            <Charts type="line" data={performanceData} />
+          </div>
+        </Widget>
 
-            <Widget title="Lead Trend">
-              <Charts type="line" data={performanceData} />
-            </Widget>
-
-            <Widget title="Recent Leads">
-              <div className="overflow-x-auto">
-                <div className="flex justify-between mb-4">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Search leads..."
-                      className="pl-10 pr-4 py-2 border rounded-lg"
-                    />
-                    <Search
-                      className="absolute left-3 top-2.5 text-gray-400"
-                      size={20}
-                    />
-                  </div>
-                  <button
-                    className="flex items-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-lg"
-                    type="button"
-                  >
-                    <Download size={20} />
-                    <span>Export</span>
-                  </button>
-                </div>
-                <table className="min-w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-left p-2">Name</th>
-                      <th className="text-left p-2">Status</th>
-                      <th className="text-left p-2">Source</th>
-                      <th className="text-left p-2">Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {leadsData.map((lead) => (
-                      <tr
-                        key={lead.id}
-                        className="hover:bg-gray-50 cursor-pointer"
-                        onClick={() => {
-                          setSelectedLead(lead);
-                          setShowLeadModal(true);
-                        }}
-                      >
-                        <td className="p-2">{lead.name}</td>
-                        <td className="p-2">{lead.status}</td>
-                        <td className="p-2">{lead.source}</td>
-                        <td className="p-2">{lead.date}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        {/* Recent Leads Widget */}
+        <Widget title="Recent Leads" className="lg:col-span-2">
+          <div className="overflow-x-auto">
+            <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  placeholder="Search leads..."
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg"
+                />
+                <Search
+                  className="absolute left-3 top-2.5 text-gray-400"
+                  size={20}
+                />
               </div>
-            </Widget>
-          </div>
-        </main>
+              <button
+                className="flex items-center justify-center space-x-2 bg-green-500 text-white px-4 py-2 rounded-lg"
+                type="button"
+              >
+                <Download size={20} />
+                <span>Export</span>
+              </button>
+            </div>
 
-        {showLeadModal && selectedLead && (
-          <LeadModal
-            lead={selectedLead}
-            onClose={() => {
-              setShowLeadModal(false);
-              setSelectedLead(null);
-            }}
-          />
-        )}
+            <div className="overflow-x-auto -mx-4 sm:mx-0">
+              <table className="min-w-full">
+                <thead>
+                  <tr>
+                    <th className="text-left p-2">Name</th>
+                    <th className="text-left p-2">Status</th>
+                    <th className="text-left p-2 hidden sm:table-cell">
+                      Source
+                    </th>
+                    <th className="text-left p-2 hidden sm:table-cell">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leadsData.map((lead) => (
+                    <tr
+                      key={lead.id}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      onClick={() => {
+                        setSelectedLead(lead);
+                        setShowLeadModal(true);
+                      }}
+                    >
+                      <td className="p-2">{lead.name}</td>
+                      <td className="p-2">{lead.status}</td>
+                      <td className="p-2 hidden sm:table-cell">
+                        {lead.source}
+                      </td>
+                      <td className="p-2 hidden sm:table-cell">{lead.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </Widget>
       </div>
-    </div>
+
+      {showLeadModal && selectedLead && (
+        <LeadModal
+          lead={selectedLead}
+          onClose={() => {
+            setShowLeadModal(false);
+            setSelectedLead(null);
+          }}
+        />
+      )}
+    </Layout>
   );
 }
