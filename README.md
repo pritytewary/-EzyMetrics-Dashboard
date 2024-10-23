@@ -55,3 +55,5 @@ The report generation feature is a simulation and may need additional functional
 Performance metrics are based on static dummy data, not real-time data.
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+Figma Design Link: https://www.figma.com/design/krKtj0puGFDW8elXoXna5a/Dashboard_page?node-id=0-1&node-type=canvas&t=Law4rmHXT5rOmJGW-0
